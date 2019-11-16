@@ -1,0 +1,24 @@
+{
+  "Nav": {
+    "Headlist":{
+      "MySpace":{"name": "我的空间","link":"myspace"},
+      "Message":{"name": "消息","link":"myMessage"},
+      "LogOut": {"name": "登出","link":"logout"}
+    },
+    "Tittle":"SpringBoot Blog"
+  },
+  "Index":{
+    "tittle":"MyBlog"
+  },
+  "myspace":{
+      "tittle":"个人空间",
+      "link":"myspace",
+      "list":{
+        "Myinfomation":{"name":"我的信息","link":"Myinformation"},
+        "Comment":{"name":"回复","link":"Comment"},
+        "message":{"name":"消息","link":"message"},
+        "published":{"name":"我发布的","link":"published"},
+        "liked":{"name":"我喜欢的","link":"Mylike"}
+      }
+  }
+}

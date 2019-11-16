@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<body>
+<div class="container-fluid" th:fragment="ArticleZone">
+    <link rel="stylesheet" href="editor/css/editormd.preview.css" />
+    <script src="editor/editormd.js"></script>
+    <script src="editor/lib/marked.min.js"></script>
+    <script src="editor/lib/prettify.min.js"></script>
+    <link rel="stylesheet" href="CSS/Media-Common.css">
+    <a class="btn btn-default" href="/publish" style="background: #4eb14e">发布</a>
+    <h3><span class="glyphicon glyphicon-align-justify">最新</span></h3>
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <div th:each="ArticleDTO:${mainPageGuide.getList()}" class="media">
+                <div class="media-left">
+                    <img th:src="${ArticleDTO.getUserIMG()}" class="media-object img-thumbnail">
+                </div>
+                <div class="media-body" >
+                    <h4 class="media-heading"><a th:href="'/Article?ArticleID='+${ArticleDTO.getArticle().getId()}" th:text="${ArticleDTO.getArticle().getTittle()}"></a></h4>
+                    <div class="test-markdown-view" th:id="'test-markdown-view-'+${ArticleDTO.getNum()}"> <textarea style="display:none" th:text="${ArticleDTO.getArticle().getDiscription()}"></textarea></div>
+                    <div class="text-desc">
+                        <span class="glyphicon glyphicon-triangle-right" th:text="${ArticleDTO.getArticle().getViewCount()}+浏览"></span>
+                        <span class="glyphicon glyphicon-volume-up" th:text="${ArticleDTO.getArticle().getCommentCount()}+回复"></span>
+                        <span class="glyphicon glyphicon-star" th:text="${ArticleDTO.getArticle().getLikeCount()}+喜欢"></span>
+                        <span class="glyphicon glyphicon-time" th:text="${#dates.format(ArticleDTO.getArticle().getGmtModified(),'yyyy-MM-dd HH:mm')}"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="Guide">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li th:if="${mainPageGuide.isFirstPage()}">
+                            <a href="/">
+                                <span class="glyphicon glyphicon-fast-backward"></span>
+                            </a>
+                        </li>
+                        <li th:if="${mainPageGuide.isFirstPage()}">
+                            <a th:href="'/?pagenum='+${mainPageGuide.getPageNum()-1}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li th:each="Integer:${mainPageGuide.getPageGuide()}" th:class="${mainPageGuide.getPageNum()==Integer}?'active':''">
+                            <a th:href="@{/(pagenum=${Integer})}" th:text="${Integer}"></a>
+                        </li>
+                        <li th:if="${mainPageGuide.isLastPage()}">
+                            <a th:href="'/?pagenum='+${mainPageGuide.getPageNum()+1}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li th:if="${mainPageGuide.isLastPage()}">
+                            <a th:href="'/?pagenum='+${mainPageGuide.getTotalPage()}">
+                                <span class="glyphicon glyphicon-fast-forward"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div>右侧</div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            for(a=0;a<10;a++){
+                editormd.markdownToHTML("test-markdown-view-"+a,{})
+            }
+            var testView = editormd.markdownToHTML("test-markdown-view", {
+                // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+                // htmlDecode : true,  // Enable / disable HTML tag encode.
+                // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

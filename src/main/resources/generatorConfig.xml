@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+        <jdbcConnection driverClass="org.h2.Driver"
+                        connectionURL="jdbc:h2:G:/demo12/H2/MyblogUserDataBase"
+                        userId="sa"
+                        password="3748650">
+        </jdbcConnection>
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+        <javaModelGenerator targetPackage="MyBlog.Model" targetProject="src\main\java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="false" />
+        </javaModelGenerator>
+        <sqlMapGenerator targetPackage="resources.Mapper"  targetProject="src\main\">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="MyBlog.Mapper"  targetProject="src\main\java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <table tableName="user" domainObjectName="User" >
+        </table>
+        <table tableName="ARTICLE" domainObjectName="Article" >
+        </table>
+        <table tableName="Comment" domainObjectName="Comment">
+        </table>
+    </context>
+</generatorConfiguration>

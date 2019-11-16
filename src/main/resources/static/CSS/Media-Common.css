@@ -1,0 +1,29 @@
+.media img{
+    width:150px;
+}
+.media-body{
+    padding: 0;
+    position: relative;
+    max-height: 500px;
+    overflow: hidden;
+}
+.test-markdown-view{
+    max-height: 300px;
+    overflow: hidden;
+}
+.prettyprint,.linenums,.prettyprinted{
+    max-height: 400px;
+}
+.text-desc{
+    font-size: 1em;
+    color: #999;
+    position: absolute;
+    bottom: 0;
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+.text-desc span{
+}

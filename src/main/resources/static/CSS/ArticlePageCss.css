@@ -1,0 +1,9 @@
+.media{
+    width: 1200px;
+}
+.media-left img{
+    width: 200px;
+}
+.media-left p{
+    text-align: center;
+}

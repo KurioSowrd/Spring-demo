@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="../static/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css"
+      integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+<link rel="stylesheet" href="JSLibraries/bootstrap/css/bootstrap.min.css">
+<body>
+<div th:insert="~{/Common/navigation :: nav}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-plus"></span>发起</h2>
+            <hr>
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="tittle">问题标题(简单概要)</label>
+                    <input th:value="${tittle}" type="text" name="tittle" id="tittle" class="form-control" placeholder="标题">
+                </div>
+                <div class="form-group">
+                    <label for="test-editor">文章内容</label>
+                    <div id="test-editor">
+                           <textarea style="display:none;">### 关于 Editor.md
+                             **Editor.md** 是一款开源的、可嵌入的 Markdown 在线编辑器（组件），基于 CodeMirror、jQuery 和 Marked 构建。
+                           </textarea>
+                    </div>
+                    <textarea th:value="${discription}" name="discription" id="discription" class="form-control" placeholder="内容" cols="30"
+                              rows="10"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tag">添加标签</label>
+                    <input th:value="${tag}" type="text" name="tag" id="tag" class="form-control" placeholder="内容">
+                    <button class="btn btn-default">添加标签</button>
+                </div>
+                <div th:if="${error}" class="alert alert-danger" role="alert">
+                    <span th:text="${error}"></span>
+                </div>
+                <button type="submit" class="btn btn-success" style="float:left;margin-bottom: 20px">发布</button>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="background-color: green;height:300px"></div>
+    </div>
+</div>
+</body>
+</html>

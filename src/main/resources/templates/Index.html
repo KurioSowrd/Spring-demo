@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${Model.getIndex().getTittle()}"></title>
+</head>
+<script src="jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" href="JSLibraries/bootstrap/css/bootstrap.css">
+<script src="JSLibraries/bootstrap/js/bootstrap.js"></script>
+<style>
+</style>
+<body>
+<div th:insert="~{/Common/navigation :: nav}"></div>
+<div th:insert="~{/Common/Index/IndexArticleZone::ArticleZone}">
+</div>
+</body>
+</html>

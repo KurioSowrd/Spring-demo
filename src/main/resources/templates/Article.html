@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="jquery-3.4.1.min.js"></script>
+    <link rel="stylesheet" href="JSLibraries/bootstrap/css/bootstrap.css">
+    <script src="JSLibraries/bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="editor/css/editormd.preview.css" />
+    <script src="editor/editormd.js"></script>
+    <script src="editor/lib/marked.min.js"></script>
+    <script src="editor/lib/prettify.min.js"></script>
+    <link rel="stylesheet" href="CSS/ArticlePageCss.css">
+    <link rel="stylesheet" href="editor/css/editormd.min.css">
+</head>
+<body>
+<div th:insert="~{/Common/navigation :: nav}"></div>
+<div class="container-fluid" style="background-color: #e0e6dc">
+    <div class="row">
+        <div class="col-lg-1 col-md-0 col-sm-0 col-xs-0"></div>
+        <div class="col-lg-10 col-md-11 col-sm-10 col-xs-10">
+            <div class="media">
+                <div class="media-left">
+                    <a></a>
+                    <img th:src="${MainArticle.getArticleViewDto().getUser().getAvatarUrl()}" class="media-object img-thumbnail">
+                    <p th:text="用户名+':'+${MainArticle.getArticleViewDto().getUser().getName()}"></p>
+                    <p></p>
+                </div>
+                <div class="media-body " style="width:100%" >
+                    <h4 class="media-heading"><p th:text="${MainArticle.getArticleViewDto().getArticle().getTittle()}"></p></h4>
+                    <div class="text-desc">
+                        <span class="glyphicon glyphicon-triangle-right" th:text="${MainArticle.getArticleViewDto().getArticle().getViewCount()}+浏览"></span>
+                        <span class="glyphicon glyphicon-volume-up" th:text="${MainArticle.getArticleViewDto().getArticle().getCommentCount()}+回复"></span>
+                        <span class="glyphicon glyphicon-star" th:text="${MainArticle.getArticleViewDto().getArticle().getLikeCount()}+喜欢"></span>
+                        <span class="glyphicon glyphicon-time" th:text="${#dates.format(MainArticle.getArticleViewDto().getArticle().getGmtModified(),'yyyy-MM-dd HH:mm')}"></span>
+                    </div>
+                    <div class="test-markdown-view" id="test-markdown-view"> <textarea style="display:none" th:text="${MainArticle.getArticleViewDto().getArticle().getDiscription()}"></textarea></div>
+                </div>
+            </div>
+            <div class="media" th:each="ArticlePageCommentDTO:${MainArticle.getCommentList()}">
+                <div class="media-left">
+                    <a></a>
+                    <img th:src="${ArticlePageCommentDTO.getUser().getAvatarUrl()}" class="media-object img-thumbnail">
+                    <p th:text="用户名+':'+${ArticlePageCommentDTO.getUser().getName()}"></p>
+                </div>
+                <div class="media-body " style="width:100%" >
+                    <div class="test-markdown-view" th:id="comment+${ArticlePageCommentDTO.getNum()}"> <textarea style="display:none" th:text="${ArticlePageCommentDTO.getComment().getDiscription()}"></textarea></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2 col-lg-2 col-sm-2 col-xs-2"></div>
+    </div>
+    <script type="text/javascript">
+        $(function() {
+            var ArticleView = editormd.markdownToHTML("test-markdown-view", {
+                // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+                // htmlDecode : true,  // Enable / disable HTML tag encode.
+                // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+            });
+            for(a=0;a<10;a++){
+                editormd.markdownToHTML("comment"+a,{})
+            }
+            var CommentView = editormd.markdownToHTML("test-markdown-view", {
+                // markdown : "[TOC]\n### Hello world!\n## Heading 2", // Also, you can dynamic set Markdown text
+                // htmlDecode : true,  // Enable / disable HTML tag encode.
+                // htmlDecode : "style,script,iframe",  // Note: If enabled, you should filter some dangerous HTML tags for website security.
+            });
+        });
+    </script>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-1 col-md-1 col-sm-0 col-xs-0"></div>
+        <div class="col-lg-7 col-md-7 col-sm-10 col-xs-10">
+            <form id="comment-editor">
+                <input id="comment-id" type="hidden" th:value="${MainArticle.getArticleViewDto().getArticle().getId()}">
+                <textarea  style="display:none;"  th:value="${discription}" name="discription" id="comment-text" class="form-control" placeholder="内容" cols="30"
+                          rows="10">在左方的文本区域输入文章内容
+                           </textarea>
+            </form>
+            <input type="button" value="提交" class="btn btn-default" id="comment-submit">
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        var editor = editormd("comment-editor", {
+            width  : "100%",
+            height : "350px",
+            path   : "editor/lib/",
+            mode   : "markdown",
+        });
+    });
+    $('#comment-submit').click(
+        function () {
+            var id=$('#comment-id').val();
+            var text=$('#comment-text').val();
+            $.ajax({
+                type:"POST",
+                url:"/comment",
+                contentType:"application/json",
+                data:JSON.stringify({
+                    "articleId":id,
+                    "discription":text
+                }),
+                success:function (response) {
+                    console.log(response);
+                    if(response.result){
+                        location.reload();
+                    }else {alert(response.message)}
+                },
+                dataType:"json"
+            })
+        }
+    )
+</script>
+</body>
+</html>
